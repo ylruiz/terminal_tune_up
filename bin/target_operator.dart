@@ -1,12 +1,23 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'target.dart';
+
 part 'git_operator.dart';
 part 'code_quality_report.dart';
 
 class TargetOperator {
   static void help() {
-    throw UnimplementedError('help is not implemented yet');
+    log('Usage: terminal_tune_up [target]\n');
+    log('Targets:\n');
+
+    for (var target in allTargets) {
+      log('${target.name}: ${target.desc}\n');
+    }
+
+    log(
+      '''\n Run "terminal_tune_up [target] --help" to get more information about a specific target.''',
+    );
   }
 
   static void clean() {
@@ -65,7 +76,7 @@ class TargetOperator {
     Process.runSync('dartdoc', ['.']);
   }
 
-  static void projectTestCoverage() {
+  static void testCoverage() {
     log('Generating project coverage report...');
     Process.runSync('flutter', ['test', '--coverage']);
 
@@ -83,7 +94,7 @@ class TargetOperator {
     _CodeQualityReport.generateTestCoverageReport();
   }
 
-  static void projectDuplicateCode() {
+  static void duplicateCode() {
     log('''Generating project duplicate code report''');
     _CodeQualityReport.duplicateCodeReport(
       ['lib'],

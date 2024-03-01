@@ -1,5 +1,39 @@
 import 'target_operator.dart';
 
+final List<Target> allTargets = [
+  Target.help(),
+  Target.clean(),
+  Target.start(),
+  Target.startWeb(),
+  Target.supperPull(),
+  Target.pull(),
+  Target.getDeps(),
+  Target.buildRunner(),
+  Target.preCommit(),
+  Target.doc(),
+  Target.testCoverage(),
+  Target.branchTestCoverage(),
+  Target.duplicateCode(),
+  Target.branchDuplicateCode(),
+];
+
+class TargetNames {
+  static const help = 'help';
+  static const clean = 'clean';
+  static const start = 'start';
+  static const startWeb = 'start_web';
+  static const superPull = 'super_pull';
+  static const pull = 'pull';
+  static const getDeps = 'get_deps';
+  static const buildRunner = 'build_runner';
+  static const preCommit = 'pre_commit';
+  static const doc = 'doc';
+  static const testCoverage = 'test_coverage';
+  static const branchTestCoverage = 'branch_test_coverage';
+  static const duplicateCode = 'duplicate_code';
+  static const branchDuplicateCode = 'branch_duplicate_code';
+}
+
 class Target {
   final String name;
   final String desc;
@@ -11,94 +45,136 @@ class Target {
     required this.operator,
   });
 
-  factory Target.get(String arg) {
-    switch (arg) {
-      case 'help':
-        return Target(
-          name: arg,
+  Target.help()
+      : this(
+          name: TargetNames.help,
           desc: 'Show commands that can be use by terminal_tune_up.',
           operator: TargetOperator.help,
         );
-      case 'clean':
-        return Target(
-          name: arg,
+
+  Target.clean()
+      : this(
+          name: TargetNames.clean,
           desc: 'Clean environment.',
           operator: TargetOperator.clean,
         );
-      case 'start':
-        return Target(
-          name: arg,
+
+  Target.start()
+      : this(
+          name: TargetNames.start,
           desc: 'Start app in dev mode.',
           operator: TargetOperator.start,
         );
-      case 'start_web':
-        return Target(
-          name: arg,
+
+  Target.startWeb()
+      : this(
+          name: TargetNames.startWeb,
           desc: 'Start web app in dev mode on port 8080.',
           operator: TargetOperator.startWeb,
         );
-      case 'super_pull':
-        return Target(
-          name: arg,
+
+  Target.supperPull()
+      : this(
+          name: TargetNames.superPull,
           desc: 'Pull latest changes, get dependencies and run build runner.',
           operator: TargetOperator.superPull,
         );
-      case 'pull':
-        return Target(
-          name: arg,
-          desc: 'Pull latest changes.',
-          operator: TargetOperator.pull,
-        );
-      case 'get_deps':
-        return Target(
-          name: arg,
+
+  Target.getDeps()
+      : this(
+          name: TargetNames.getDeps,
           desc: 'Get dependencies.',
           operator: TargetOperator.getDeps,
         );
-      case 'build_runner':
-        return Target(
-          name: arg,
+
+  Target.pull()
+      : this(
+          name: TargetNames.pull,
+          desc: 'Pull latest changes.',
+          operator: TargetOperator.pull,
+        );
+
+  Target.buildRunner()
+      : this(
+          name: TargetNames.buildRunner,
           desc: 'Generate files with build_runner.',
           operator: TargetOperator.buildRunner,
         );
-      case 'pre_commit':
-        return Target(
-          name: arg,
+
+  Target.preCommit()
+      : this(
+          name: TargetNames.preCommit,
           desc: 'Format code, run flutter analyze and run tests.',
           operator: TargetOperator.preCommit,
         );
-      case 'doc':
-        return Target(
-          name: arg,
+
+  Target.doc()
+      : this(
+          name: TargetNames.doc,
           desc: 'Generate documentation.',
           operator: TargetOperator.doc,
         );
-      case 'project_test_coverage':
-        return Target(
-          name: arg,
+
+  Target.testCoverage()
+      : this(
+          name: TargetNames.testCoverage,
           desc: 'Generate coverage report for the whole project.',
-          operator: TargetOperator.projectTestCoverage,
+          operator: TargetOperator.testCoverage,
         );
-      case 'branch_test_coverage':
-        return Target(
-          name: arg,
+
+  Target.branchTestCoverage()
+      : this(
+          name: TargetNames.branchTestCoverage,
           desc:
               '''Generate coverage report based on the changes made in the current branch.''',
           operator: TargetOperator.branchTestCoverage,
         );
-      case 'project_duplicate_code':
-        return Target(
-          name: arg,
+
+  Target.duplicateCode()
+      : this(
+          name: TargetNames.duplicateCode,
           desc: 'Generate duplicate code report for the whole project.',
-          operator: TargetOperator.projectDuplicateCode,
+          operator: TargetOperator.duplicateCode,
         );
-      case 'branch_duplicate_code':
-        return Target(
-          name: arg,
+
+  Target.branchDuplicateCode()
+      : this(
+          name: TargetNames.branchDuplicateCode,
           desc:
               '''Generate duplicate code report based on the changes made in the current branch.''',
           operator: TargetOperator.branchDuplicateCode,
         );
+
+  factory Target.get(String arg) {
+    switch (arg) {
+      case TargetNames.help:
+        return Target.help();
+      case TargetNames.clean:
+        return Target.clean();
+      case TargetNames.start:
+        return Target.start();
+      case TargetNames.startWeb:
+        return Target.startWeb();
+      case TargetNames.superPull:
+        return Target.supperPull();
+      case TargetNames.pull:
+        return Target.pull();
+      case TargetNames.getDeps:
+        return Target.getDeps();
+      case TargetNames.buildRunner:
+        return Target.buildRunner();
+      case TargetNames.preCommit:
+        return Target.preCommit();
+      case TargetNames.doc:
+        return Target.doc();
+      case TargetNames.testCoverage:
+        return Target.testCoverage();
+      case TargetNames.branchTestCoverage:
+        return Target.branchTestCoverage();
+      case TargetNames.duplicateCode:
+        return Target.duplicateCode();
+      case TargetNames.branchDuplicateCode:
+        return Target.branchDuplicateCode();
       default:
         throw ArgumentError('Invalid target: $arg');
     }
