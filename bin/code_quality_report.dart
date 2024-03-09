@@ -4,9 +4,7 @@ class _CodeQualityReport {
   static const _ignoredFiles =
       "**/*.freezed.dart,**/*g.dart,lib/config/**,assets/images/**,.firebase/**";
 
-  static ProcessResult generateTestCoverageReport() =>
-      Process.runSync('genhtml', ['coverage/lcov.info', '-o', 'coverage/html']);
-
+  //! Duplicate Code Detection
   static void duplicateCodeReport(
     List<String> sourceDir,
     String reportName,
@@ -46,6 +44,37 @@ class _CodeQualityReport {
     }
   }
 
+  //! Code coverage
+  static void runTestAndGenerateLcov() {
+    final resultLcov = Process.runSync('lcov', ['--version']);
+
+    if (resultLcov.exitCode != 0) {
+      log('Error: lcov is not installed.\n');
+      log(
+        'Please install LCOV, which includes lcov and genhtml, using one of '
+        'the following methods:\n\n'
+        '- macOS: Install with Homebrew using the command:\n'
+        '  brew install lcov\n\n'
+        '- Linux (Ubuntu/Debian): Install with APT using the commands:\n'
+        '  sudo apt-get update\n'
+        '  sudo apt-get install lcov\n\n'
+        '- Linux (Other distributions): Use your package manager to install '
+        'lcov. For example, on Fedora:\n'
+        '  sudo dnf install lcov\n\n'
+        '- Windows: Install with Cygwin or WSL (Windows Subsystem for Linux).'
+        '\nFor Cygwin, select the lcov package during installation. For WSL, '
+        'install lcov from the Linux distribution available through WSL '
+        'using the package manager.\n\n'
+        'If you prefer to install lcov manually, you can download the source '
+        'code from the official repository and follow the instructions '
+        'provided in the README or INSTALL file.',
+      );
+      exit(1);
+    }
+
+    Process.runSync('flutter', ['test', '--coverage']);
+  }
+
   static void removeCodeFromCoverage({List<String>? unchangedFiles}) {
     // Check if remove_from_coverage is installed globally
     ProcessResult result = Process.runSync('dart', ['pub', 'global', 'list']);
@@ -76,6 +105,39 @@ class _CodeQualityReport {
     Process.runSync(
       'remove_from_coverage',
       args,
+    );
+  }
+
+  static ProcessResult generateTestCoverageReport() {
+    final resultGenhtml = Process.runSync('genhtml', ['--version']);
+
+    if (resultGenhtml.exitCode != 0) {
+      log('Error: genhtml is not installed.\n');
+      log(
+        'Please install LCOV, which includes lcov and genhtml, using one of '
+        'the following methods:\n\n'
+        '- macOS: Install with Homebrew using the command:\n'
+        '  brew install lcov\n\n'
+        '- Linux (Ubuntu/Debian): Install with APT using the commands:\n'
+        '  sudo apt-get update\n'
+        '  sudo apt-get install lcov\n\n'
+        '- Linux (Other distributions): Use your package manager to install '
+        'lcov. For example, on Fedora:\n'
+        '  sudo dnf install lcov\n\n'
+        '- Windows: Install with Cygwin or WSL (Windows Subsystem for Linux).'
+        '\nFor Cygwin, select the lcov package during installation. For WSL, '
+        'install lcov from the Linux distribution available through WSL '
+        'using the package manager.\n\n'
+        'If you prefer to install lcov manually, you can download the source '
+        'code from the official repository and follow the instructions '
+        'provided in the README or INSTALL file.',
+      );
+      exit(1);
+    }
+
+    return Process.runSync(
+      'genhtml',
+      ['coverage/lcov.info', '-o', 'coverage/html'],
     );
   }
 }

@@ -78,16 +78,16 @@ class TargetOperator {
 
   static void testCoverage() {
     log('Generating project coverage report...');
-    Process.runSync('flutter', ['test', '--coverage']);
 
+    _CodeQualityReport.runTestAndGenerateLcov();
     _CodeQualityReport.removeCodeFromCoverage();
     _CodeQualityReport.generateTestCoverageReport();
   }
 
   static void branchTestCoverage() {
     log('''Generating coverage report based on the changes made in the current branch...''');
-    Process.runSync('flutter', ['test', '--coverage']);
-
+    
+    _CodeQualityReport.runTestAndGenerateLcov();
     _CodeQualityReport.removeCodeFromCoverage(
       unchangedFiles: _GitOperator.unchangedFiles,
     );
