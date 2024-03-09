@@ -1,7 +1,10 @@
 name: terminal_tune_up
-description: "A new Flutter package project."
-version: 0.0.1
-homepage:
+description:
+version: 1.0.0
+homepage: https://github.com/ylruiz/terminal_tune_up
+
+executables:
+  terminal_tune_up: Terminal Tune Up is designed to enhance development workflows by automating the generation of Makefiles.
 
 environment:
   sdk: '>=3.2.4 <4.0.0'
